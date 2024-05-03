@@ -12,6 +12,7 @@ const DATABSE: &str = include_str!("../assets/database.json");
 #[derive(Serialize, Deserialize)]
 struct DbEntry {
   name: String,
+  display_name: String,
   iso_url: String,
   hash_url: String,
 }
