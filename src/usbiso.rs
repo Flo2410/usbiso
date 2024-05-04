@@ -56,6 +56,17 @@ impl UsbIso {
     }
   }
 
+  fn save_manifest(&self) -> anyhow::Result<()> {
+    serde_json::to_writer_pretty(
+      OpenOptions::new()
+        .write(true)
+        .truncate(true)
+        .open(&self.manifest_file_path)?,
+      &self.manifest,
+    )?;
+    Ok(())
+  }
+
   pub fn add(&mut self, db_entry: &DbEntry) -> anyhow::Result<()> {
     let manifest_entry = ManifestEntry {
       name: db_entry.name.clone(),
@@ -63,10 +74,7 @@ impl UsbIso {
     };
 
     self.manifest.isos.push(manifest_entry);
-    serde_json::to_writer_pretty(
-      OpenOptions::new().write(true).open(&self.manifest_file_path)?,
-      &self.manifest,
-    )?;
+    self.save_manifest()?;
     Ok(())
   }
 }
