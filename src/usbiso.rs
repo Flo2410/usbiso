@@ -1,4 +1,4 @@
-use anyhow::Ok;
+use anyhow::{Error, Ok};
 use serde::{Deserialize, Serialize};
 use std::{fs::OpenOptions, io::BufReader, path::Path};
 
@@ -74,6 +74,24 @@ impl UsbIso {
     };
 
     self.manifest.isos.push(manifest_entry);
+    self.save_manifest()?;
+    Ok(())
+  }
+
+  pub fn remove(&mut self, name: String) -> anyhow::Result<()> {
+    // check if in manifest
+    let manifest_index_option = self.manifest.isos.iter().position(|x| x.name == name);
+    if manifest_index_option.is_none() {
+      // println!();
+      return Err(Error::msg(format!(
+        "The ISO \"{}\" does not exist in the manifest",
+        name
+      )));
+    }
+
+    let manifest_index = manifest_index_option.unwrap();
+
+    self.manifest.isos.swap_remove(manifest_index);
     self.save_manifest()?;
     Ok(())
   }

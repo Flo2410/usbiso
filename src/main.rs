@@ -3,7 +3,7 @@ mod database;
 mod usbiso;
 mod utils;
 
-use anyhow::Ok;
+use anyhow::{Error, Ok};
 use clap::Parser;
 use std::path::Path;
 
@@ -70,7 +70,13 @@ async fn main() -> anyhow::Result<()> {
 
       usbiso.add(db_entry)?;
     }
-    ActionType::Remove(action_args) => todo!("Remove... {:?}", action_args.iso_name),
+    ActionType::Remove(action_args) => {
+      let name = action_args.iso_name;
+
+      println!("Removing {}", name);
+
+      usbiso.remove(name)?;
+    }
   };
 
   Ok(())
