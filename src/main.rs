@@ -32,8 +32,19 @@ async fn main() -> anyhow::Result<()> {
         return Ok(());
       }
 
-      todo!("List...");
+      if usbiso.manifest.isos.is_empty() {
+        println!("There are no ISOs in the manifest");
+        return Ok(());
+      }
+
+      println!("ISOs in the manifest:");
+      usbiso
+        .manifest
+        .isos
+        .iter()
+        .for_each(|iso| println!("{} : {}", iso.name, iso.version));
     }
+
     ActionType::Add(action_args) => {
       let name = action_args.iso_name;
 
