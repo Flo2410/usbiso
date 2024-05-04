@@ -5,6 +5,12 @@
       "name": "nixos-23.11",
       "iso_url": "https://channels.nixos.org/nixos-23.11/latest-nixos-plasma5-x86_64-linux.iso",
       "hash_url": "https://channels.nixos.org/nixos-23.11/latest-nixos-plasma5-x86_64-linux.iso.sha256"
+    },
+    {
+      "display_name": "NixOS Unstable",
+      "name": "nixos-unstable",
+      "iso_url": "https://channels.nixos.org/nixos-unstable/latest-nixos-plasma5-x86_64-linux.iso",
+      "hash_url": "https://channels.nixos.org/nixos-unstable/latest-nixos-plasma5-x86_64-linux.iso.sha256"
     }
   ]
 }
