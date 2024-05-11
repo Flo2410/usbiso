@@ -1,9 +1,10 @@
 mod args;
 mod database;
+mod downloader;
 mod usbiso;
 mod utils;
 
-use anyhow::{Error, Ok};
+use anyhow::Ok;
 use clap::Parser;
 use std::path::Path;
 
@@ -68,7 +69,7 @@ async fn main() -> anyhow::Result<()> {
 
       println!("Adding {}", name);
 
-      usbiso.add(db_entry)?;
+      usbiso.add(db_entry).await?;
     }
     ActionType::Remove(action_args) => {
       let name = action_args.iso_name;
