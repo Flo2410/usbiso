@@ -3,7 +3,7 @@ use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use sha256::try_digest;
 use std::{
-  fs::OpenOptions,
+  fs::{remove_file, OpenOptions},
   io::{BufReader, Read},
   path::Path,
 };
@@ -101,10 +101,12 @@ impl UsbIso {
 
     let iso_hash_calc = try_digest(iso_download_res.path).unwrap();
 
-    let mut hash_file = OpenOptions::new().read(true).open(hash_download_res.path)?;
+    let mut hash_file = OpenOptions::new().read(true).open(&hash_download_res.path)?;
 
     let mut real_hash = String::new();
     hash_file.read_to_string(&mut real_hash)?;
+    drop(hash_file);
+    remove_file(hash_download_res.path)?;
 
     real_hash = real_hash.split_ascii_whitespace().nth(0).unwrap().to_string();
 
